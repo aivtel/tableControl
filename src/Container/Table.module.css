@@ -1,0 +1,60 @@
+.Header {
+    height: 50px;
+    width: 100%;
+    background-color: rgba(240, 238, 218, 0.664);
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 90;
+    margin-bottom: 5px;
+    position: fixed;
+}
+
+.Table {
+    width: 100%;
+    overflow: scroll;
+    position: relative;
+    top: 60px;
+}
+
+.Selected {
+    background-color: rgb(151, 151, 247)
+}
+
+.Display {
+    display: none
+ }
+
+
+
+.Button {
+    display: inline-block;
+    margin-top: 0.333em;
+    margin-right: 0.333em;
+    margin-bottom: 0.333em;
+    padding: 0.5em 1em;
+    border: 1px solid #999;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.88em;
+    line-height: 1.6em;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: #e9e9e9;
+    text-decoration: none;
+}
+
+.Button:disabled {
+    color: gray;
+    cursor: not-allowed
+}
+
+.Button:hover {
+    background-color: rgb(151, 151, 247);
+    color: white
+}
+.Button:disabled:hover {
+    background-color: #e9e9e9;
+    color: gray;
+}

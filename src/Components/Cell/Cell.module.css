@@ -1,0 +1,16 @@
+.Cell {
+    border: 1px solid #f4f6f8;
+    padding: 4px 8px;
+    text-align: left;
+  }
+  
+.CellHeader {
+    border: 1px solid #f4f6f8;
+    padding: 4px;
+    text-align: left;
+    font-weight: bold;
+  }
+
+.Hide {
+  display: none
+}

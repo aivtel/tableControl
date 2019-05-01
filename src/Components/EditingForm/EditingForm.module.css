@@ -1,0 +1,17 @@
+.Button {
+    display: inline-block;
+    margin-top: 15px;
+    margin-right: 0.333em;
+    margin-bottom: 0.333em;
+    padding: 0.5em 1em;
+    border: 1px solid #999;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.88em;
+    line-height: 1.6em;
+    color: black;
+    width: 40%;
+
+    background-color: #e9e9e9;
+
+}
