@@ -4,15 +4,15 @@ export const getDataJSON = (url) => {
     return (dispatch) => {
         axios.get(url)
             .then(res => {
-                const dataArray = res.data.map((e) => ({
+                const dataArray = res.data.map(el => ({
                         show: true,
                         selected: false,
-                        value: Object.values(e)
+                        value: Object.values(el)
                     }));
               
-                const headersArray = Object.keys(res.data[0]).map((e) => ({
+                const headersArray = Object.keys(res.data[0]).map(el => ({
                     asc: true,
-                    value: e
+                    value: el
                 }));
                 
                 dispatch(dataToReducer(dataArray, headersArray))
@@ -28,7 +28,6 @@ export const dataToReducer = (data, headers) => {
         headers: headers
     }
 };
-
 
 export const sortDataHandler = (columnIndex, data, isAsc) => {
     return {
@@ -119,10 +118,10 @@ export const loadMoreRows = () => {
     }
 };
 
-// export const changeColumnIndex = (oldIndex, newIndex) => {
-//     return {
-//         type: "CHANGE_COLUMN_INDEX",
-//         oldIndex: oldIndex,
-//         newIndex: newIndex
-//     }
-// };
+export const changeColumnIndex = (oldIndex, newIndex) => {
+    return {
+        type: "CHANGE_COLUMN_INDEX",
+        oldIndex: oldIndex,
+        newIndex: newIndex
+    }
+};

@@ -9,12 +9,16 @@ class Cell extends Component {
                                                 classes.Hide 
                                                 : 
                                                 classes.CellHeader} 
-                                onClick={this.props.click}> {this.props.content} </th>
+                                onClick={this.props.click}> 
+                                    {this.props.content} {this.props.children}
+                            </th>
                             : 
                             <td className={this.props.hidingColumns.includes(this.props.index) ? 
                                                 classes.Hide 
                                                 : 
-                                                classes.Cell}> {this.props.content} {this.props.children}</td>
+                                                classes.Cell}>
+                                    {this.props.content} {this.props.children}
+                            </td>
                         
         return cellType
     }

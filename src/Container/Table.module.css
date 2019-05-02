@@ -10,13 +10,6 @@
     position: fixed;
 }
 
-.Table {
-    width: 100%;
-    overflow: scroll;
-    position: relative;
-    top: 60px;
-}
-
 .Selected {
     background-color: rgb(151, 151, 247)
 }
@@ -24,8 +17,6 @@
 .Display {
     display: none
  }
-
-
 
 .Button {
     display: inline-block;
@@ -55,6 +46,45 @@
     color: white
 }
 .Button:disabled:hover {
+    background-color: #e9e9e9;
+    color: gray;
+}
+
+.Table {
+    position: relative;
+    top: 60px;
+}
+
+.ButtonOrder {
+    font-family: 'Montserrat', sans-serif;
+    display: inline-block;
+    margin-top: 0.333em;
+    margin-right: 0.333em;
+    margin-bottom: 0.333em;
+    padding: 0.5em 1em;
+    border: 1px solid #999;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 0.9em;
+    line-height: 1em;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    background-color: rgba(240, 238, 218, 0.664);
+    text-decoration: none;
+}
+
+.ButtonOrder:disabled {
+    color: gray;
+    cursor: not-allowed
+}
+
+.ButtonOrder:hover {
+    background-color: rgb(224, 203, 108);
+    color: white
+}
+
+.ButtonOrder:disabled:hover {
     background-color: #e9e9e9;
     color: gray;
 }

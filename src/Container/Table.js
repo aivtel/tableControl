@@ -3,7 +3,6 @@ import Cell from '../Components/Cell/Cell';
 import Input from '../Components/Input/Input';
 import Modal from '../Components/UI/Modal/Modal';
 import EditingForm from '../Components/EditingForm/EditingForm';
-import tableDragger from 'table-dragger';
 import classes from './Table.module.css';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions';
@@ -28,29 +27,9 @@ class Table extends Component {
           })
     };
 
-    // Модуль перетаскивания колонок
-    droppableHandler = () => {
-        const el = this.tableTable.current;
-        const dragger = tableDragger(el, {
-         mode: 'column',
-         onlyBody: true,
-         animation: 300
-       });
-    //    const changeIndexesInRedux = this.props.changeColumnIndex;
-
-       dragger.on('drop',function(from, to){
-            // changeIndexesInRedux(from, to);
-        });
-    };    
-
     componentDidMount () {
         // Загрузка данных по заранее указанному адресу
         this.props.getDataJSON(this.props.url);
-    };
-
-    componentDidUpdate () {
-        // Модуль перетаскивания колонок
-        this.droppableHandler();
     };
    
     render() {
@@ -69,31 +48,44 @@ class Table extends Component {
                                                     />
                                                 </span>));
 
+        // Кнопки перемещения колонок таблицы 
+        const ChangeColumnsOrderButtons = this.props.headers.map((e, index) => 
+                                    <Cell key={"headingBtn" + index} header>
+                                        <button 
+                                            disabled={index === 0}
+                                            className={classes.ButtonOrder}
+                                            onClick={() => this.props.changeColumnIndex(index, index - 1)}
+                                        > &lt; {e.value} </button>
+                                        <button 
+                                            disabled={index === this.props.headers.length - 1}
+                                            className={classes.ButtonOrder}
+                                            onClick={() => this.props.changeColumnIndex(index, index + 1)}
+                                        >{e.value} &gt;</button>
+                                    </Cell>);
+
         // Заголовки таблицы
-        const headers = this.props.headers.map((e, index) => <Cell 
-                                                                style={{textAlign: 'center'}}
-                                                                key={"heading" + index} 
-                                                                content={e.value}
-                                                                index={index}
-                                                                click={() => this.props.sortDataHandler(index, this.props.dataToTable, e.asc)} 
-                                                                header 
-                                                            />);
+        const headers = this.props.headers.map((e, index) => 
+                                    <Cell 
+                                        style={{textAlign: 'center'}}
+                                        key={"heading" + index} 
+                                        content={e.value}
+                                        index={index}
+                                        click={() => 
+                                            this.props.sortDataHandler(index, this.props.dataToTable, e.asc)} 
+                                        header 
+                                    />);
 
         // Поля по которым пользователь делает фильтрацию
-        const inputs = <tr key={'inputs'}>
-                            {this.props.headers.map((e, index) => {
-                                    return (<Cell key={'inputsCell' + index} index={index}>
-                                                    <Input 
-                                                        key={'input' + index} 
-                                                        change={(event) => this.props.filterHandler(event, index, this.props.dataToTable)} 
-                                                    />
-                                            </Cell>)
-                            })}
-                        </tr>
+        const inputs = this.props.headers.map((e, index) => 
+                                    <Cell key={'inputsCell' + index} index={index} header>
+                                        <Input 
+                                            key={'input' + index} 
+                                            change={(event) => this.props.filterHandler(event, index, this.props.dataToTable)} 
+                                        />
+                                    </Cell>)
         
         // Строки таблицы 
-        const rows = this.props.dataToTable.map((e, rowIndex) => {
-                            return (
+        const rows = this.props.dataToTable.map((e, rowIndex) =>
                                 <tr 
                                     key={'tr' + rowIndex} 
                                     className={e.show ? 
@@ -102,11 +94,9 @@ class Table extends Component {
                                     onClick={() => this.props.selectRowHandler(rowIndex)} 
                                     onContextMenu={(event) => this.handleContextMenu(event, rowIndex)}
                                 >
-                                    {e.value.map((cell, index) => {
-                                        return (<Cell key={'cell' + index} index={index} content={cell} />)
-                                    })}
-                                </tr>)
-                        });
+                                    {e.value.map((cell, index) => 
+                                        <Cell key={'cell' + index} index={index} content={cell} />)}
+                                </tr>);
 
 
         return (
@@ -138,13 +128,12 @@ class Table extends Component {
                     </div>
                 </div>
                 <table ref={this.tableTable} className={classes.Table}>
-                    <thead>
-                        <tr key={"headerRow"} >
-                            {headers}
-                        </tr>
+                    <thead className={classes.TableHead}>
+                        <tr key={"orderBtn"}>{ChangeColumnsOrderButtons}</tr>
+                        <tr key={"headerRow"}>{headers}</tr>
+                        <tr key={"headerinputs"}>{inputs}</tr>
                     </thead>
-                    <tbody>
-                        {inputs}
+                    <tbody className={classes.TableBody}>   
                         {rows}   
                         {/* Ниже модуль контекстного меню */}
                         <ContextMenu />
@@ -183,7 +172,7 @@ const mapDispatchToProps = (dispatch) => {
         loadMoreRows: () => dispatch(actions.loadMoreRows()),
         showURLFormBegin: () => dispatch(actions.showURLFormBegin()),
         showURLFormCancel: () => dispatch(actions.showURLFormCancel()),
-        // changeColumnIndex: (oldIndex, newIndex) => dispatch(actions.changeColumnIndex(oldIndex, newIndex))
+        changeColumnIndex: (oldIndex, newIndex) => dispatch(actions.changeColumnIndex(oldIndex, newIndex))
     }
 };
 

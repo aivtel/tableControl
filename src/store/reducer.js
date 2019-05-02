@@ -1,3 +1,6 @@
+// headers и dataToTable имеют первоначальные значения? чтобы при первом рендере до загрузки json 
+// сайт не выдавал ошибку.
+// На PC работает и без этого, а с телефона выдает ошибку
 const initialState = {
     wholeData: [],
     headers: [{asc: true, value: "Loading"}],
@@ -13,7 +16,7 @@ const initialState = {
     fetchedData: false
 };
 
-
+// Обновления state после получение JSON data через axios
 const arrayFromJSON = (state, action) => {
     const first20RowData = action.initialData.slice(0, 20);
     return {
@@ -25,9 +28,11 @@ const arrayFromJSON = (state, action) => {
     }
 };
 
+// Сортировка по клику по заголовку
 const sortDataFunc = (state, action) => {
-      const newData = [].concat(action.data);
-            
+      const newData = [...action.data];
+    
+      // isAsc  - значение в объекте заголовка, указывающее сортировать по возрастанию или нет 
       function compare(a, b) { 
           if (a.value[action.columnIndex] < b.value[action.columnIndex]) 
               return action.isAsc ? 1 : -1; 
@@ -47,8 +52,9 @@ const sortDataFunc = (state, action) => {
         }
 };
 
+// Фильтрация по совпадению, если не совпадает, значение show устанавливает в false и применяется стиль display:none
 const filterHandler = (state, action) => {
-    const newData = [].concat(action.data);
+    const newData = [...action.data];
     for (let i = 0; i < newData.length; i++) {
       if(newData[i].value[action.columnIndex].toString().indexOf(action.event.target.value.toString()) < 0) {
         newData[i].show = false;
@@ -56,15 +62,15 @@ const filterHandler = (state, action) => {
         newData[i].show = true;
       }
     };
-
     return {
       ...state,
       dataToTable: newData
     }
 };
 
+// Дублируем строку из команды контекстного меню
 const duplicateRow = (state, action) => {
-      const newData = [].concat(state.dataToTable);
+      const newData = [...state.dataToTable];
       const duplicateRow = {...newData[action.rowIndex]};
       newData.splice(action.rowIndex, 0, duplicateRow);
      
@@ -74,8 +80,9 @@ const duplicateRow = (state, action) => {
     }
 };
 
+// Удаляем строку командой из контекстного меню
 const deleteRow = (state, action) => {
-    const newData = [].concat(state.dataToTable);
+    const newData = [...state.dataToTable];
     newData.splice(action.rowIndex, 1);
     
     return {
@@ -84,9 +91,12 @@ const deleteRow = (state, action) => {
     }
 };
 
+// Выбарнные строки помечаются булеаном selected и их индекс добавляется в специальный массив
+//  чтобы затем применить стиль 
+// и чтобы только они были доступны для редактирования из формы редактирования
 const selectRowHandler = (state, action) => {
-    const selectedRows = [].concat(state.selectedRows);
-    const newData = [].concat(state.dataToTable);
+    const selectedRows = [...state.selectedRows];
+    const newData = [...state.dataToTable];
 
     if(selectedRows.indexOf(action.rowIndex) === -1) {
       selectedRows.push(action.rowIndex);
@@ -104,8 +114,10 @@ const selectRowHandler = (state, action) => {
     }
 };
 
+// Редактируем выбранные строки, прогоняя по массиву с номерами индексов выбранных строк
+// Меняем значение объекта исходя из его key 
 const editHandler = (state, action) => {
-    const newData = [].concat(state.dataToTable);
+    const newData = [...state.dataToTable];
     for (let i of state.selectedRows) {
         for (let key in action.updateData) {
           newData[i].value[key] = action.updateData[key];
@@ -119,6 +131,7 @@ const editHandler = (state, action) => {
     }
 };
 
+// Отмена показы формы - по клику по затемненному фону
 const editingCancel = (state) => {
     return {
       ...state,
@@ -126,6 +139,7 @@ const editingCancel = (state) => {
     }
 };
 
+// Показываем форму редактирования
 const editingBegin = (state) => {
     return {
       ...state,
@@ -133,6 +147,7 @@ const editingBegin = (state) => {
     }
 };
 
+// Отменям форму загрузки нового JSON
 const showURLFormCancel = (state) => {
     return {
       ...state,
@@ -140,6 +155,7 @@ const showURLFormCancel = (state) => {
     }
 };
 
+// Показываем форму загрузки JSON
 const showURLFormBegin = (state) => {
     return {
       ...state,
@@ -147,6 +163,9 @@ const showURLFormBegin = (state) => {
     }
 };
 
+// Если мы нажимаем изменить строку из контекстного меню
+// то только эта строка становится доступной для редактирования
+//  - в массив редактируемых строк добавляется одна она
 const editingContextMenu = (state, action) => {
     const singleRowNumber = [].concat(action.rowIndex);
     return {
@@ -156,8 +175,9 @@ const editingContextMenu = (state, action) => {
     }
 };
 
+// Прячем колонки по индексу
 const hideColumn = (state, action) => {
-      const newArr = [].concat(state.hidingColumns);
+      const newArr = [...state.hidingColumns];
 
       if(newArr.indexOf(action.columnIndex) === -1) {
         newArr.push(action.columnIndex);
@@ -171,17 +191,15 @@ const hideColumn = (state, action) => {
       }
 };
 
+// Добавляем новые строки при прокрутке.
 const loadMoreRows = (state) => {
   if (state.dataToTable.length >= state.wholeData.length && state.dataToTable.length !== 0) {
-        console.log('End of the rows!')
         return {
           ...state,
           isLoading: false
         }
   } else if (state.dataToTable.length === 0) {
-        console.log("Loading page")
   } else {
-        console.log('Loading rows');
         const newData = [...state.wholeData];
         const newCurrentRows = newData.slice(0, state.dataToTable.length);
         const newPartOfRows = state.wholeData.slice(state.dataToTable.length, state.dataToTable.length + 15);
@@ -194,28 +212,24 @@ const loadMoreRows = (state) => {
   } 
 };
 
-// const changeColumnIndex = (state, action) => {
-//   console.log(state.wholeData, "whole")
-//   const newData = [...state.wholeData];
-//   // const newHeaders = [...state.headers];
-//   // const headersValue = state.headers.find((el, index) => index === action.oldIndex);
-//   // newHeaders.splice(action.oldIndex, 1);
-//   // newHeaders.splice(action.newIndex, 0, headersValue);
-//   for (let i = 0; i < newData.length; i++) {
-//     const value = state.wholeData[i].value.find((el, index) => index === action.oldIndex);
-//     newData[i].value.splice(action.oldIndex, 1);
-//     newData[i].value.splice(action.newIndex, 0, value);
-//   }
-
-  // const newCurrentRows = newData.slice(0, state.dataToTable.length);
-
-//   console.log(newData, 'yya')
-//   return {
-//     ...state,
-//     wholeData: newData,
-//     // headers: newHeaders
-//   }
-// }
+// Кнопки чередования колонок над заголовками меняют индексы в массиве данных и в заголовках
+const changeColumnIndex = (state, action) => {
+    const newData = [...state.wholeData];
+    const newHeaders = [...state.headers];
+    const headersValue = state.headers.find((el, index) => index === action.oldIndex);
+    newHeaders.splice(action.oldIndex, 1);
+    newHeaders.splice(action.newIndex, 0, headersValue);
+    for (let i = 0; i < newData.length; i++) {
+      const value = state.wholeData[i].value.find((el, index) => index === action.oldIndex);
+      newData[i].value.splice(action.oldIndex, 1);
+      newData[i].value.splice(action.newIndex, 0, value);
+    }
+    return {
+      ...state,
+      wholeData: newData,
+      headers: newHeaders
+    }
+};
 
 const reducer = (state = initialState, action) => {
         switch(action.type) {
@@ -233,7 +247,7 @@ const reducer = (state = initialState, action) => {
             case "LOAD_MORE_ROWS" : return loadMoreRows(state);
             case "SHOW_URL_FORM_CANCEL": return showURLFormCancel(state, action);
             case "SHOW_URL_FORM_BEGIN": return showURLFormBegin(state, action);
-            // case "CHANGE_COLUMN_INDEX": return changeColumnIndex(state, action);
+            case "CHANGE_COLUMN_INDEX": return changeColumnIndex(state, action);
             default: return state;
         }
 };

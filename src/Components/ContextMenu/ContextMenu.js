@@ -4,10 +4,6 @@ import 'react-contexify/dist/ReactContexify.min.css';
 import {connect} from 'react-redux';
 import * as actions from '../../store/actions';
 
-
-// const changeHandler = ({ event, props }) => {
-// }
-
 const ContextMenu = (props) => (
    <Menu id='menu_id'>
        <Item onClick={(data) => props.duplicateRow(data)}>

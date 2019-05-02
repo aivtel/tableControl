@@ -7,9 +7,7 @@ import classes from './EditingForm.module.css';
 
 class EditingForm extends Component {
 
-    state = {
-
-    };
+    state = {};
 
     inputChangedHandler = (event, index) => {
         this.setState({[index]: event.target.value}) 
@@ -23,19 +21,20 @@ class EditingForm extends Component {
 
     render() {
         return (<div>
-                   {this.props.headers.map((e, index) => {
-                      return (<React.Fragment key={'fragment' + index}>
+                   {this.props.headers.map((e, index) => 
+                        <React.Fragment key={'fragment' + index}>
                                 <h3 key={'h3' + index}>{e.value}</h3>
                                 <Input key={'EditingInput' + index} 
                                         placeholder={"  New value of " + e.value}
                                         change={(event) => this.inputChangedHandler(event, index)}
                                         />
-                            </React.Fragment>)
-                   })}
-                   <div><button className={classes.Button} onClick={() => this.closeAndEdit()}>
+                            </React.Fragment>)}
+                    <button 
+                        style={{display: 'block'}} 
+                        className={classes.Button} 
+                        onClick={() => this.closeAndEdit()}>
                             Update
-                        </button>
-                    </div>
+                    </button>
                 </div>)
     }
 };
