@@ -9,18 +9,19 @@ const initialState = {
     hidingColumns: [],
     isLoading: true,
     url: 'https://jsonplaceholder.typicode.com/albums',
-    showURLForm: false
+    showURLForm: false,
+    fetchedData: false
 };
 
 
 const arrayFromJSON = (state, action) => {
     const first20RowData = action.initialData.slice(0, 20);
-    console.log(action.headers, action.initialData, 'yayay')
     return {
         ...state,
         headers: action.headers,
         wholeData: action.initialData,
-        dataToTable: first20RowData
+        dataToTable: first20RowData,
+        fetchedData: true
     }
 };
 

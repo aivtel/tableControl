@@ -151,7 +151,7 @@ class Table extends Component {
                     </tbody>
                 </table>
                 {/* Ниже модуль, который загружает строки при прокрутке */}
-                {this.props.isLoading ? <Waypoint onEnter={() => this.props.loadMoreRows()}/> : null}
+                {this.props.fetchedData ? (this.props.isLoading ? <Waypoint onEnter={() => this.props.loadMoreRows()}/> : null) : null}
             </React.Fragment>
             )
     }
@@ -166,7 +166,8 @@ const mapStateToProps = (state) => {
         hidingColumns: state.hidingColumns,
         isLoading: state.isLoading,
         url: state.url,
-        showURLForm: state.showURLForm
+        showURLForm: state.showURLForm,
+        fetchedData: state.fetchedData
     }
 };
 
