@@ -42,11 +42,14 @@ class Table extends Component {
             // changeIndexesInRedux(from, to);
         });
     };    
-    
-    componentDidMount () {
-        // Загрузка данных по заранее указанному адресу
+
+    componentWillMount () {
         this.props.getDataJSON(this.props.url);
-    };
+    }
+    // componentDidMount () {
+    //     // Загрузка данных по заранее указанному адресу
+    //     this.props.getDataJSON(this.props.url);
+    // };
 
     componentDidUpdate () {
         // Модуль перетаскивания колонок
