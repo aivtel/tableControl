@@ -1,7 +1,9 @@
 const initialState = {
     wholeData: [],
-    headers: [],
-    dataToTable: [],
+    headers: [{asc: true, value: "Loading"}],
+    dataToTable: [{selected: false,
+      show: true,
+      value: [null, null, " initialData"]}],
     selectedRows: [],
     editing: false,
     hidingColumns: [],
@@ -13,6 +15,7 @@ const initialState = {
 
 const arrayFromJSON = (state, action) => {
     const first20RowData = action.initialData.slice(0, 20);
+    console.log(action.headers, action.initialData, 'yayay')
     return {
         ...state,
         headers: action.headers,
@@ -177,7 +180,7 @@ const loadMoreRows = (state) => {
   } else if (state.dataToTable.length === 0) {
         console.log("Loading page")
   } else {
-        console.log('Loading rows', state.wholeData, state.headers);
+        console.log('Loading rows');
         const newData = [...state.wholeData];
         const newCurrentRows = newData.slice(0, state.dataToTable.length);
         const newPartOfRows = state.wholeData.slice(state.dataToTable.length, state.dataToTable.length + 15);

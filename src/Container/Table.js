@@ -43,13 +43,10 @@ class Table extends Component {
         });
     };    
 
-    componentWillMount () {
+    componentDidMount () {
+        // Загрузка данных по заранее указанному адресу
         this.props.getDataJSON(this.props.url);
-    }
-    // componentDidMount () {
-    //     // Загрузка данных по заранее указанному адресу
-    //     this.props.getDataJSON(this.props.url);
-    // };
+    };
 
     componentDidUpdate () {
         // Модуль перетаскивания колонок
