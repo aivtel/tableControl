@@ -10,10 +10,9 @@ import ContextMenu from '../Components/ContextMenu/ContextMenu';
 import { contextMenu } from 'react-contexify';
 import {Waypoint} from 'react-waypoint';
 import JSONForm from '../Components/JSONForm/JSONForm';
+import Navbar from '../Components/Navbar/Navbar';
 
 class Table extends Component {
-    // реф вместо id, чтобы модулю для перетаскивания колонок в таблице было понятно с каким объектом работать
-    tableTable = React.createRef();
 
     // Модуль контекстного меню
     handleContextMenu(e, rowindex) {
@@ -33,24 +32,9 @@ class Table extends Component {
     };
    
     render() {
-        // Чекбоксы с помощью которых пользователь выбирает какие колонки показывать
-        // Колонки прячутся на уровне компонента Cell, если индекс Cell совпадает с одним из значений
-        // в массиве hidingColumns , то к ней применяется стиль display: none
-        const showColumnCheckboxes = this.props.headers.map((e, index) => 
-                                                (<span key={"checkboxes" + index} style={{margin: '0 4px'}}>
-                                                    <p style={{display: 'inline-block'}}>{e.value}</p>
-                                                    <input 
-                                                        defaultChecked
-                                                        key={"checkBoxHide" + index}
-                                                        type="checkbox"
-                                                        name={e.value} 
-                                                        onClick={() => this.props.hideColumn(index)}                                      
-                                                    />
-                                                </span>));
-
         // Кнопки перемещения колонок таблицы 
         const ChangeColumnsOrderButtons = this.props.headers.map((e, index) => 
-                                    <Cell key={"headingBtn" + index} header>
+                                    <Cell key={"headingBtn" + index} index={index} header>
                                         <button 
                                             disabled={index === 0}
                                             className={classes.ButtonOrder}
@@ -108,26 +92,9 @@ class Table extends Component {
                 <Modal showEditing={this.props.showURLForm} closeEditing={this.props.showURLFormCancel}>
                     <JSONForm close={this.props.showURLFormCancel}/>
                 </Modal>
-                <div className={classes.Header}>
-                    <div style={{display: 'inline-block'}}>
-                        {/* Кнопка для редактирования строк, доступна только тогда, когда хотя бы одна строка выбрана */}
-                        <button 
-                            className={classes.Button} 
-                            onClick={this.props.editingBegin} 
-                            disabled={this.props.selectedRows.length === 0}
-                        > Edit selected rows
-                        </button>
-                        <button 
-                            className={classes.Button} 
-                            onClick={() => this.props.showURLFormBegin()}
-                        >Load new JSON
-                        </button>
-                    </div>
-                    <div style={{display: 'inline-block', float: 'right'}}>
-                        {showColumnCheckboxes}
-                    </div>
-                </div>
-                <table ref={this.tableTable} className={classes.Table}>
+                {/* Чекбоксы видимости колонок и кнопки редактирования и загрузки JSON находятся в компоненте Navbar */}
+                <Navbar />
+                <table className={classes.Table}>
                     <thead className={classes.TableHead}>
                         <tr key={"orderBtn"}>{ChangeColumnsOrderButtons}</tr>
                         <tr key={"headerRow"}>{headers}</tr>

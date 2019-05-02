@@ -125,3 +125,9 @@ export const changeColumnIndex = (oldIndex, newIndex) => {
         newIndex: newIndex
     }
 };
+
+export const toggleMenu = () => {
+    return {
+        type: "TOGGLE_MENU"
+    }
+};

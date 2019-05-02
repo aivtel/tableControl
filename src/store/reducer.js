@@ -13,7 +13,8 @@ const initialState = {
     isLoading: true,
     url: 'https://jsonplaceholder.typicode.com/albums',
     showURLForm: false,
-    fetchedData: false
+    fetchedData: false,
+    toggleMenu: false
 };
 
 // Обновления state после получение JSON data через axios
@@ -231,6 +232,13 @@ const changeColumnIndex = (state, action) => {
     }
 };
 
+const toggleMenu = (state) => {
+  return {
+      ...state,
+      toggleMenu: !state.toggleMenu
+  }
+};
+
 const reducer = (state = initialState, action) => {
         switch(action.type) {
             case "DATATOREDUCER" : return arrayFromJSON(state, action);
@@ -248,6 +256,7 @@ const reducer = (state = initialState, action) => {
             case "SHOW_URL_FORM_CANCEL": return showURLFormCancel(state, action);
             case "SHOW_URL_FORM_BEGIN": return showURLFormBegin(state, action);
             case "CHANGE_COLUMN_INDEX": return changeColumnIndex(state, action);
+            case "TOGGLE_MENU": return toggleMenu(state, action);
             default: return state;
         }
 };

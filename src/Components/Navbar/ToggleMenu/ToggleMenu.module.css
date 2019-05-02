@@ -1,0 +1,24 @@
+.ToggleMenu {
+    position: relative;
+    margin: 5px 0;
+    width: 100%;
+    height: 12vh;
+    border: 1px solid black;
+    z-index: 90;
+    background-color: rgba(250, 250, 250, 0.93);
+    opacity: 0.93;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.5s;
+
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 0.93;
+	}
+}
