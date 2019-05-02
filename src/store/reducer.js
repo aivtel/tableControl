@@ -1,4 +1,3 @@
-
 const initialState = {
     wholeData: [],
     headers: [],
@@ -7,7 +6,8 @@ const initialState = {
     editing: false,
     hidingColumns: [],
     isLoading: true,
-    url: 'https://jsonplaceholder.typicode.com/albums'
+    url: 'https://jsonplaceholder.typicode.com/albums',
+    showURLForm: false
 };
 
 
@@ -93,7 +93,6 @@ const selectRowHandler = (state, action) => {
       newData[action.rowIndex].selected = false;
     }
 
-    console.log(selectedRows)
     return {
       ...state,
       selectedRows: selectedRows,
@@ -130,6 +129,20 @@ const editingBegin = (state) => {
     }
 };
 
+const showURLFormCancel = (state) => {
+    return {
+      ...state,
+      showURLForm: false
+    }
+};
+
+const showURLFormBegin = (state) => {
+    return {
+      ...state,
+      showURLForm: true
+    }
+};
+
 const editingContextMenu = (state, action) => {
     const singleRowNumber = [].concat(action.rowIndex);
     return {
@@ -148,7 +161,6 @@ const hideColumn = (state, action) => {
         let ind = newArr.findIndex(e => e === action.columnIndex);
         newArr.splice(ind, 1);
       }
-      console.log(newArr);
       return {
         ...state,
         hidingColumns: newArr
@@ -165,15 +177,41 @@ const loadMoreRows = (state) => {
   } else if (state.dataToTable.length === 0) {
         console.log("Loading page")
   } else {
-        console.log('Loading rows')
+        console.log('Loading rows', state.wholeData, state.headers);
+        const newData = [...state.wholeData];
+        const newCurrentRows = newData.slice(0, state.dataToTable.length);
         const newPartOfRows = state.wholeData.slice(state.dataToTable.length, state.dataToTable.length + 15);
-        const newDataToTable = [...state.dataToTable].concat(newPartOfRows);
+        const newDataToTable = newCurrentRows.concat(newPartOfRows);
+        
         return {
           ...state,
           dataToTable: newDataToTable
         }
   } 
 };
+
+// const changeColumnIndex = (state, action) => {
+//   console.log(state.wholeData, "whole")
+//   const newData = [...state.wholeData];
+//   // const newHeaders = [...state.headers];
+//   // const headersValue = state.headers.find((el, index) => index === action.oldIndex);
+//   // newHeaders.splice(action.oldIndex, 1);
+//   // newHeaders.splice(action.newIndex, 0, headersValue);
+//   for (let i = 0; i < newData.length; i++) {
+//     const value = state.wholeData[i].value.find((el, index) => index === action.oldIndex);
+//     newData[i].value.splice(action.oldIndex, 1);
+//     newData[i].value.splice(action.newIndex, 0, value);
+//   }
+
+  // const newCurrentRows = newData.slice(0, state.dataToTable.length);
+
+//   console.log(newData, 'yya')
+//   return {
+//     ...state,
+//     wholeData: newData,
+//     // headers: newHeaders
+//   }
+// }
 
 const reducer = (state = initialState, action) => {
         switch(action.type) {
@@ -189,6 +227,9 @@ const reducer = (state = initialState, action) => {
             case "EDITING_CONTEXT_MENU" : return editingContextMenu(state, action);
             case "HIDE_COLUMN" : return hideColumn(state, action);
             case "LOAD_MORE_ROWS" : return loadMoreRows(state);
+            case "SHOW_URL_FORM_CANCEL": return showURLFormCancel(state, action);
+            case "SHOW_URL_FORM_BEGIN": return showURLFormBegin(state, action);
+            // case "CHANGE_COLUMN_INDEX": return changeColumnIndex(state, action);
             default: return state;
         }
 };

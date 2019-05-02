@@ -87,6 +87,17 @@ export const editingBegin = () => {
         type: "EDITING_BEGIN"
     }
 };
+export const showURLFormCancel = () => {
+    return {
+        type: "SHOW_URL_FORM_CANCEL"
+    }
+};
+
+export const showURLFormBegin = () => {
+    return {
+        type: "SHOW_URL_FORM_BEGIN"
+    }
+};
 
 export const editingContextMenu = (data) => {
     return {
@@ -107,3 +118,11 @@ export const loadMoreRows = () => {
         type: "LOAD_MORE_ROWS"
     }
 };
+
+// export const changeColumnIndex = (oldIndex, newIndex) => {
+//     return {
+//         type: "CHANGE_COLUMN_INDEX",
+//         oldIndex: oldIndex,
+//         newIndex: newIndex
+//     }
+// };
