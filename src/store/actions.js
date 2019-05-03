@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as actionTypes from './actionTypes';
 
 export const getDataJSON = (url) => {
     return (dispatch) => {
@@ -23,7 +24,7 @@ export const getDataJSON = (url) => {
 
 export const dataToReducer = (data, headers) => {
     return {
-        type: "DATATOREDUCER",
+        type: actionTypes.DATATOREDUCER,
         initialData: data,
         headers: headers
     }
@@ -31,7 +32,7 @@ export const dataToReducer = (data, headers) => {
 
 export const sortDataHandler = (columnIndex, data, isAsc) => {
     return {
-        type: "SORTDATA",
+        type: actionTypes.SORTDATA,
         data: data,
         columnIndex: columnIndex,
         isAsc: isAsc
@@ -40,7 +41,7 @@ export const sortDataHandler = (columnIndex, data, isAsc) => {
 
 export const filterHandler = (event, columnIndex, data) => {
     return {
-        type: "FILTER_HANDLER",
+        type: actionTypes.FILTER_HANDLER,
         event: event,
         columnIndex: columnIndex,
         data: data
@@ -49,78 +50,78 @@ export const filterHandler = (event, columnIndex, data) => {
 
 export const duplicateRow = (data) => {
     return {
-        type: "DUPLICATE_ROW",
+        type: actionTypes.DUPLICATE_ROW,
         rowIndex: data.props.rowIndex
     }
 };
 
 export const deleteRow = (data) => {
     return {
-        type: "DELETE_ROW",
+        type: actionTypes.DELETE_ROW,
         rowIndex: data.props.rowIndex
     }
 };
 
 export const selectRowHandler = (rowIndex) => {
     return {
-        type: "SELECT_ROW",
+        type: actionTypes.SELECT_ROW,
         rowIndex: rowIndex
     }
 };
 
 export const editHandler = (updateData) => {
     return {
-        type: "EDIT_HANDLER",
+        type: actionTypes.EDIT_HANDLER,
         updateData: updateData
     }
 };
 
 export const editingCancel = () => {
     return {
-        type: "EDITING_CANCEL"
+        type: actionTypes.EDITING_CANCEL
     }
 };
 
 export const editingBegin = () => {
     return {
-        type: "EDITING_BEGIN"
+        type: actionTypes.EDITING_BEGIN
     }
 };
 export const showURLFormCancel = () => {
     return {
-        type: "SHOW_URL_FORM_CANCEL"
+        type: actionTypes.SHOW_URL_FORM_CANCEL
     }
 };
 
 export const showURLFormBegin = () => {
     return {
-        type: "SHOW_URL_FORM_BEGIN"
+        type: actionTypes.SHOW_URL_FORM_BEGIN
     }
 };
 
 export const editingContextMenu = (data) => {
     return {
-        type: "EDITING_CONTEXT_MENU",
+        type: actionTypes.EDITING_CONTEXT_MENU,
         rowIndex: data.props.rowIndex
     }
 };
 
 export const hideColumn = (columnIndex) => {
     return {
-        type: "HIDE_COLUMN",
+        type: actionTypes.HIDE_COLUMN,
         columnIndex: columnIndex
     }
 };
 
 export const loadMoreRows = () => {
     return {
-        type: "LOAD_MORE_ROWS"
+        type: actionTypes.LOAD_MORE_ROWS
     }
 };
 
 export const changeColumnIndex = (oldIndex, newIndex) => {
     return {
-        type: "CHANGE_COLUMN_INDEX",
+        type: actionTypes.CHANGE_COLUMN_INDEX,
         oldIndex: oldIndex,
         newIndex: newIndex
     }
@@ -128,6 +129,6 @@ export const changeColumnIndex = (oldIndex, newIndex) => {
 
 export const toggleMenu = () => {
     return {
-        type: "TOGGLE_MENU"
+        type: actionTypes.TOGGLE_MENU
     }
 };

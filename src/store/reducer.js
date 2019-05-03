@@ -1,3 +1,5 @@
+import * as actionTypes from './actionTypes';
+
 // headers и dataToTable имеют первоначальные значения? чтобы при первом рендере до загрузки json 
 // сайт не выдавал ошибку.
 // На PC работает и без этого, а с телефона выдает ошибку
@@ -241,22 +243,22 @@ const toggleMenu = (state) => {
 
 const reducer = (state = initialState, action) => {
         switch(action.type) {
-            case "DATATOREDUCER" : return arrayFromJSON(state, action);
-            case "SORTDATA" : return sortDataFunc(state, action);
-            case "FILTER_HANDLER" : return filterHandler(state, action);
-            case "DUPLICATE_ROW" : return duplicateRow(state, action);
-            case "DELETE_ROW" : return deleteRow(state, action);
-            case "SELECT_ROW" : return selectRowHandler(state, action);
-            case "EDIT_HANDLER" : return editHandler(state, action);
-            case "EDITING_CANCEL" : return editingCancel(state, action);
-            case "EDITING_BEGIN" : return editingBegin(state, action);
-            case "EDITING_CONTEXT_MENU" : return editingContextMenu(state, action);
-            case "HIDE_COLUMN" : return hideColumn(state, action);
-            case "LOAD_MORE_ROWS" : return loadMoreRows(state);
-            case "SHOW_URL_FORM_CANCEL": return showURLFormCancel(state, action);
-            case "SHOW_URL_FORM_BEGIN": return showURLFormBegin(state, action);
-            case "CHANGE_COLUMN_INDEX": return changeColumnIndex(state, action);
-            case "TOGGLE_MENU": return toggleMenu(state, action);
+            case actionTypes.DATATOREDUCER : return arrayFromJSON(state, action);
+            case actionTypes.SORTDATA : return sortDataFunc(state, action);
+            case actionTypes.FILTER_HANDLER : return filterHandler(state, action);
+            case actionTypes.DUPLICATE_ROW : return duplicateRow(state, action);
+            case actionTypes.DELETE_ROW : return deleteRow(state, action);
+            case actionTypes.SELECT_ROW : return selectRowHandler(state, action);
+            case actionTypes.EDIT_HANDLER : return editHandler(state, action);
+            case actionTypes.EDITING_CANCEL : return editingCancel(state, action);
+            case actionTypes.EDITING_BEGIN : return editingBegin(state, action);
+            case actionTypes.EDITING_CONTEXT_MENU : return editingContextMenu(state, action);
+            case actionTypes.HIDE_COLUMN : return hideColumn(state, action);
+            case actionTypes.LOAD_MORE_ROWS : return loadMoreRows(state);
+            case actionTypes.SHOW_URL_FORM_CANCEL: return showURLFormCancel(state, action);
+            case actionTypes.SHOW_URL_FORM_BEGIN: return showURLFormBegin(state, action);
+            case actionTypes.CHANGE_COLUMN_INDEX: return changeColumnIndex(state, action);
+            case actionTypes.TOGGLE_MENU: return toggleMenu(state, action);
             default: return state;
         }
 };

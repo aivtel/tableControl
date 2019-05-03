@@ -6,6 +6,7 @@
     box-sizing: border-box;
     z-index: 90;
     margin-bottom: 5px;
+    position: fixed;
 }
 
 @media (max-width: 769px) {
